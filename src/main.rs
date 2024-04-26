@@ -15,7 +15,7 @@ fn get_response(request: &str) -> Result<String, &'static str> {
 
 fn read_file(filename: &str) -> String {
     match fs::read_to_string(filename) {
-        Ok(text) => format!("HTTP 1.1 200 OK\r\nContent-Type: text/html\r\n\r\n{}", text),
+        Ok(text) => format!("HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n{}", text),
         Err(e) => {
             eprint!("Error reading file: {e:?}");
             String::from("HTTP 1.1 500 Internal Server Error\r\n500 Internal Server Error")
@@ -50,7 +50,7 @@ fn handle_connection(mut stream: TcpStream) {
 fn main() {
     let listener = std::net::TcpListener::bind("127.0.0.1:8080").unwrap();
 
-    println!("Listening on 127.0.0.1:8080 - Ctrl+C to stop");
+    println!("Listening on http://127.0.0.1:8080 - Ctrl+C to stop");
 
     for stream in listener.incoming() {
         match stream {
